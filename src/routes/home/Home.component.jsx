@@ -1,6 +1,6 @@
 import { useState } from "react";
 //import "../../categories.styles.scss";
-import "../../categories.styles.scss";
+//import "../../categories.styles.scss";
 //import CategoryItem from "./components/category-item/Category-item.component";
 import Directory from "../../components/directory/Directory.component";
 
