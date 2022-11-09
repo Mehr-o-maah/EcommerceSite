@@ -37,4 +37,22 @@ export const db = getFirestore();
 
 export const createUserDocumentFromAuth = async (userAuth) => {
   const userDocRef = doc(db, "users", userAuth.uid);
+
+  //crea el documento si no existe
+  const userDocSnapshot = await getDoc(userDocRef);
+  if (!userDocSnapshot.exists()) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await setDoc(userDocRef, {
+        displayName,
+        email,
+        createdAt,
+      });
+    } catch (error) {
+      console.error("Error creating the user ", error.message);
+    }
+    return userDocRef;
+  }
 };
