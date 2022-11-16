@@ -4,6 +4,8 @@ import {
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input-component";
+import "./sign-up-form.styles.scss";
+import Button from "../button/button.component";
 
 export default function SignUpFormComponent() {
   const [formFields, setFormFields] = useState({
@@ -75,7 +77,9 @@ export default function SignUpFormComponent() {
           onChange={onChangeInput}
           required
         />
-        <button type="submit">Sign Up</button>
+        <Button buttonType="google" type="submit">
+          Sign Up
+        </Button>
       </form>
     </div>
   );
