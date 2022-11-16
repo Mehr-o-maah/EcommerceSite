@@ -26,13 +26,14 @@ export default function SigninComponent() {
   };
 
   return (
-    <>
-      <h1>Sign in Page</h1>
+    <div className="sign-up-container">
+      <h2>Don't have an account?</h2>
+      <span>Sign up with your email and password</span>
       <button onClick={logGoogleUser}>Sign in with Google popup</button>
       <SignUpFormComponent />
       {/* <button onClick={signInWithGoogleRedirect}>
         Sign in with Google Redirect
       </button> */}
-    </>
+    </div>
   );
 }
