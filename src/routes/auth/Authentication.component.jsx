@@ -7,6 +7,7 @@ import {
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
 import SignUpFormComponent from "../../components/sign-up-form/Sign-up-form.component";
+import SignInFormComponent from "../../components/sign-in-form/Sign-in-form.component";
 
 export default function SigninComponent() {
   //sign in with redirect
@@ -20,16 +21,10 @@ export default function SigninComponent() {
   //   result();
   // }, []);
 
-  const logGoogleUser = async () => {
-    const { user } = await signInWithGooglePopup();
-    const userDocRef = await createUserDocumentFromAuth(user); //save user to firestore
-  };
-
   return (
     <div className="sign-up-container">
       <h2>Don't have an account?</h2>
-      <span>Sign up with your email and password</span>
-      <button onClick={logGoogleUser}>Sign in with Google popup</button>
+      <SignInFormComponent />
       <SignUpFormComponent />
       {/* <button onClick={signInWithGoogleRedirect}>
         Sign in with Google Redirect

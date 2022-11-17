@@ -1,0 +1,70 @@
+import React, { useState } from "react";
+import {
+  signInWithGooglePopup,
+  createUserDocumentFromAuth,
+  signInAuthUserWithEmailAndPassword,
+} from "../../utils/firebase/firebase.utils";
+import FormInput from "../form-input/form-input-component";
+import "./sign-in-form.styles.scss";
+import Button from "../button/button.component";
+
+export default function SignInFormComponent() {
+  const [formFields, setFormFields] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = formFields;
+
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+
+    setFormFields({ ...formFields, [name]: value });
+  };
+
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await signInAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+      console.log(response);
+    } catch (error) {}
+  };
+
+  const signInWithGoogle = async () => {
+    const { user } = await signInWithGooglePopup();
+    await createUserDocumentFromAuth(user); //save user to firestore
+  };
+
+  return (
+    <div>
+      <h1>Already have an account?</h1>
+      <form onSubmit={onSubmitForm}>
+        <FormInput
+          label="Email"
+          type="email"
+          name="email"
+          value={email}
+          onChange={onChangeInput}
+          required
+        />
+        <FormInput
+          label="Password"
+          type="password"
+          name="password"
+          value={password}
+          onChange={onChangeInput}
+          required
+        />
+        <div className="buttons-container">
+          <Button type="submit">Sign In</Button>
+          <Button buttonType="google" onClick={signInWithGoogle}>
+            Sign In with Google
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
+}

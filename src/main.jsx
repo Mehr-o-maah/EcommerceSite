@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 //Components
 import Home from "./routes/home/Home.component";
 import NavigationBar from "./routes/home/navigation/Navigation.component";
-import SignIn from "./routes/sign-in/Sign-in.component";
+import Auth from "./routes/auth/Authentication.component";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <NavigationBar />,
     children: [
       { index: true, element: <Home /> },
-      { path: "sign-in", element: <SignIn /> },
+      { path: "auth", element: <Auth /> },
     ],
   },
 ]);
