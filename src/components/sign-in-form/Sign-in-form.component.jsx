@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   signInWithGooglePopup,
   createUserDocumentFromAuth,
@@ -7,6 +7,7 @@ import {
 import FormInput from "../form-input/form-input-component";
 import "./sign-in-form.styles.scss";
 import Button from "../button/button.component";
+import { UserContext } from "../contexts/user.context";
 
 export default function SignInFormComponent() {
   const [formFields, setFormFields] = useState({
@@ -14,6 +15,8 @@ export default function SignInFormComponent() {
     password: "",
   });
   const { email, password } = formFields;
+
+  const { setCurrentUser } = useContext(UserContext);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -29,7 +32,8 @@ export default function SignInFormComponent() {
         email,
         password
       );
-      console.log(response);
+      setCurrentUser(response.user);
+      //console.log(response.user);
     } catch (error) {
       const errorCodes = {
         "auth/user-not-found": "User not found. Please sign up.",
@@ -39,8 +43,10 @@ export default function SignInFormComponent() {
     }
   };
 
+  //!not in use
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
+    setCurrentUser(user);
     await createUserDocumentFromAuth(user); //save user to firestore
   };
 

@@ -9,6 +9,8 @@ import Home from "./routes/home/Home.component";
 import NavigationBar from "./routes/home/navigation/Navigation.component";
 import Auth from "./routes/auth/Authentication.component";
 
+//Contexts
+import { UserProvider } from "./components/contexts/user.context";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +24,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   </React.StrictMode>
 );
