@@ -43,7 +43,8 @@ export default function SignUpFormComponent() {
 
   return (
     <div>
-      <h1>Sign up with your email</h1>
+      <h2>Don't have an account?</h2>
+      <h3>Sign up with your email</h3>
       <form onSubmit={onSubmitForm}>
         <FormInput
           label="Display Name"

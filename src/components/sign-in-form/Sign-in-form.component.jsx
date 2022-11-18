@@ -30,7 +30,13 @@ export default function SignInFormComponent() {
         password
       );
       console.log(response);
-    } catch (error) {}
+    } catch (error) {
+      const errorCodes = {
+        "auth/user-not-found": "User not found. Please sign up.",
+        "auth/wrong-password": "Wrong password. Please try again.",
+      };
+      alert(errorCodes[error.code]);
+    }
   };
 
   const signInWithGoogle = async () => {
@@ -40,7 +46,7 @@ export default function SignInFormComponent() {
 
   return (
     <div>
-      <h1>Already have an account?</h1>
+      <h2>Already have an account?</h2>
       <form onSubmit={onSubmitForm}>
         <FormInput
           label="Email"
@@ -60,7 +66,7 @@ export default function SignInFormComponent() {
         />
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
-          <Button buttonType="google" onClick={signInWithGoogle}>
+          <Button type="button" buttonType="google" onClick={signInWithGoogle}>
             Sign In with Google
           </Button>
         </div>

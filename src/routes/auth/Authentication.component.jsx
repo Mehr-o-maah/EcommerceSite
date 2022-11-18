@@ -1,13 +1,8 @@
 import React, { useEffect } from "react";
 //import { getRedirectResult } from "firebase/auth";
-import {
-  //auth,
-  signInWithGooglePopup,
-  //signInWithGoogleRedirect,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils";
 import SignUpFormComponent from "../../components/sign-up-form/Sign-up-form.component";
 import SignInFormComponent from "../../components/sign-in-form/Sign-in-form.component";
+import "./authentication.style.scss";
 
 export default function SigninComponent() {
   //sign in with redirect
@@ -22,8 +17,7 @@ export default function SigninComponent() {
   // }, []);
 
   return (
-    <div className="sign-up-container">
-      <h2>Don't have an account?</h2>
+    <div className="authentication-container">
       <SignInFormComponent />
       <SignUpFormComponent />
       {/* <button onClick={signInWithGoogleRedirect}>
