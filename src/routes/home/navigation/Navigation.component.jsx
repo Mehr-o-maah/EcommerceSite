@@ -25,7 +25,7 @@ export default function Navigation() {
             SHOP
           </Link>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutAuthUser}>
+            <span className="nav-link" onClick={signOut}>
               Sign Out
             </span>
           ) : (

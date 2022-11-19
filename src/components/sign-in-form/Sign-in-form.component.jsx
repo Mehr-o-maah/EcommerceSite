@@ -32,7 +32,7 @@ export default function SignInFormComponent() {
         email,
         password
       );
-      setCurrentUser(response.user);
+
       //console.log(response.user);
     } catch (error) {
       const errorCodes = {
@@ -46,7 +46,7 @@ export default function SignInFormComponent() {
   //!not in use
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
-    setCurrentUser(user);
+
     await createUserDocumentFromAuth(user); //save user to firestore
   };
 
