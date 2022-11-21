@@ -3,7 +3,7 @@ import cronwnLogo from "../../../assets/crown.svg";
 import "./navigation.styles.scss";
 
 import { useContext } from "react";
-import { UserContext } from "../../../components/contexts/user.context";
+import { UserContext } from "../../../contexts/user.context";
 import { signOutAuthUser } from "../../../utils/firebase/firebase.utils";
 
 export default function Navigation() {

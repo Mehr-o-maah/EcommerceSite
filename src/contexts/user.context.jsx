@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils";
+} from "../utils/firebase/firebase.utils";
 
 //create a react storage context
 export const UserContext = createContext({

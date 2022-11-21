@@ -8,9 +8,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./routes/home/Home.component";
 import NavigationBar from "./routes/home/navigation/Navigation.component";
 import Auth from "./routes/auth/Authentication.component";
+import ShopComponent from "./routes/shop/shop.component";
 
 //Contexts
-import { UserProvider } from "./components/contexts/user.context";
+import { UserProvider } from "./contexts/user.context";
+import { ProductsProvider } from "./contexts/products.context";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,6 +20,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "auth", element: <Auth /> },
+      { path: "shop", element: <ShopComponent /> },
     ],
   },
 ]);
@@ -25,7 +28,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <UserProvider>
-      <RouterProvider router={router} />
+      <ProductsProvider>
+        <RouterProvider router={router} />
+      </ProductsProvider>
     </UserProvider>
   </React.StrictMode>
 );
