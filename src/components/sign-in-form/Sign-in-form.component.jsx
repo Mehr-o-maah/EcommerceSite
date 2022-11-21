@@ -16,8 +16,6 @@ export default function SignInFormComponent() {
   });
   const { email, password } = formFields;
 
-  const { setCurrentUser } = useContext(UserContext);
-
   const onChangeInput = (e) => {
     const { name, value } = e.target;
 
@@ -45,9 +43,7 @@ export default function SignInFormComponent() {
 
   //!not in use
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-
-    await createUserDocumentFromAuth(user); //save user to firestore
+    await signInWithGooglePopup();
   };
 
   return (
