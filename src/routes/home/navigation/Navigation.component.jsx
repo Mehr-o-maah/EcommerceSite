@@ -2,12 +2,17 @@ import { Outlet, Link } from "react-router-dom";
 import cronwnLogo from "../../../assets/crown.svg";
 import "./navigation.styles.scss";
 
+import CartIconComponent from "../../../components/cart-icon/cart-icon-component";
 import { useContext } from "react";
 import { UserContext } from "../../../contexts/user.context";
+import { CartContext } from "../../../contexts/cart.context";
+
 import { signOutAuthUser } from "../../../utils/firebase/firebase.utils";
+import CartDropdownComponent from "../../../components/cart-dropdown/cart-dropdown.component";
 
 export default function Navigation() {
   const { currentUser } = useContext(UserContext);
+  const { hidden } = useContext(CartContext);
   console.log("Current user: ", currentUser);
 
   return (
@@ -29,7 +34,9 @@ export default function Navigation() {
               SIGN IN
             </Link>
           )}
+          <CartIconComponent />
         </div>
+        {!hidden && <CartDropdownComponent />}
       </div>
       <Outlet />
     </>
