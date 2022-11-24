@@ -13,7 +13,7 @@ import CartDropdownComponent from "../../../components/cart-dropdown/cart-dropdo
 export default function Navigation() {
   const { currentUser } = useContext(UserContext);
   const { hidden } = useContext(CartContext);
-  console.log("Current user: ", currentUser);
+  //console.log("Current user: ", currentUser);
 
   return (
     <>

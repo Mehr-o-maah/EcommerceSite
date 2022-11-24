@@ -4,12 +4,16 @@ import { useContext } from "react";
 import { CartContext } from "../../contexts/cart.context";
 
 export default function CartIconComponent() {
-  const { toggleHidden } = useContext(CartContext);
+  const { toggleHidden, cartItems } = useContext(CartContext);
+  const itemCount = cartItems.reduce(
+    (accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity,
+    0
+  );
 
   return (
     <div onClick={toggleHidden} className="cart-icon-container">
       <img src={ShoppingIcon} alt="shoppin icon" className="shooping-icon" />
-      <span className="item-count">0</span>
+      <span className="item-count">{itemCount}</span>
     </div>
   );
 }

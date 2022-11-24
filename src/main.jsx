@@ -9,6 +9,7 @@ import Home from "./routes/home/Home.component";
 import NavigationBar from "./routes/home/navigation/Navigation.component";
 import Auth from "./routes/auth/Authentication.component";
 import ShopComponent from "./routes/shop/shop.component";
+import CheckoutComponent from "./routes/checkout/checkout.component";
 
 //Contexts
 import { UserProvider } from "./contexts/user.context";
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "auth", element: <Auth /> },
       { path: "shop", element: <ShopComponent /> },
+      { path: "checkout", element: <CheckoutComponent /> },
     ],
   },
 ]);
