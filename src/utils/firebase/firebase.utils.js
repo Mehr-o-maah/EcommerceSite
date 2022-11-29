@@ -16,6 +16,8 @@ import {
   setDoc,
   collection,
   writeBatch,
+  query,
+  getDocs,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -60,6 +62,32 @@ export const addCollectionAndDocuments = async (
     batch.set(newDocRef, obj);
   });
   return await batch.commit();
+};
+/*
+object : {
+  title: "hats",
+  items: [
+    {
+      id: 1,
+      name: "Brown Brim",
+      imageUrl: "https://i.ibb.co/ZYW3VTp/brown-brim.png",
+      price: 25,
+    },
+  ],
+}
+map through the above creating an object with the title as the key and the items as the value
+object.map(obj => ({[obj.title]: obj.items})) => [{hats: [{id: 1, name: "Brown Brim", imageUrl: "https://i.ibb.co/ZYW3VTp/brown-brim.png", price: 25,}]}]
+*/
+export const getCategoriesAndDocuments = async () => {
+  const categoriesRef = collection(db, "categories");
+  const q = query(categoriesRef);
+  const categoriesSnapshot = await getDocs(q);
+  const categoryMap = categoriesSnapshot.docs.reduce((acc, docSnapshot) => {
+    const { title, items } = docSnapshot.data();
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+  return categoryMap;
 };
 
 export const createUserDocumentFromAuth = async (
