@@ -9,7 +9,14 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZIJ32DFH_HJ5Vj7f-BCIamDfDuYM5PC8",
@@ -41,6 +48,19 @@ export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider); //uncoment the code in sign-in.component.jsx to use this
 
 export const db = getFirestore();
+
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db); // batch is a way to group multiple writes together and send them as a single unit
+  objectsToAdd.forEach((obj) => {
+    const newDocRef = doc(collectionRef, obj.title.toLowerCase());
+    batch.set(newDocRef, obj);
+  });
+  return await batch.commit();
+};
 
 export const createUserDocumentFromAuth = async (
   userAuth,
