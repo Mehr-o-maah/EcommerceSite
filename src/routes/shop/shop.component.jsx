@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { CategoriesContext } from "../../contexts/categories.context";
-import ProductCardComponent from "../../components/product-card/product-card.component";
+import CategoryPreviewComponent from "../../components/category-preview/category-preview.component";
 import "./shop.style.scss";
 
 export default function ShopComponent() {
@@ -8,17 +8,14 @@ export default function ShopComponent() {
   //TODO use cashing with swr or react-query to cache the data
   console.log(categoriesMap);
   return (
-    <>
+    <div className="shop-container">
       {Object.keys(categoriesMap).map((title) => (
-        <div key={title}>
-          <h2>{title}</h2>
-          <div className="products-container">
-            {categoriesMap[title].map((product) => (
-              <ProductCardComponent key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
+        <CategoryPreviewComponent
+          key={title}
+          title={title}
+          items={categoriesMap[title]}
+        />
       ))}
-    </>
+    </div>
   );
 }
