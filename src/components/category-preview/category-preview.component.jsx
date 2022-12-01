@@ -3,6 +3,7 @@ import ProductCardComponent from "../product-card/product-card.component";
 import { Link } from "react-router-dom";
 
 export default function CategoryPreviewComponent({ title, items }) {
+  //TODO the link should also be on the home page
   return (
     <div className="category-preview-container">
       <h1 className="title">
