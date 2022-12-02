@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useReducer } from "react";
 
 export const CartContext = createContext({
   hidden: true,
@@ -9,56 +9,92 @@ export const CartContext = createContext({
   clearItemFromCart: () => {},
 });
 
-export const CartProvider = ({ children }) => {
-  const [hidden, setHidden] = useState(true);
+const INITIAL_STATE = {
+  hidden: true,
+  cartItems: [],
+};
 
-  const [cartItems, setCartItems] = useState([]);
-  const addItemToCart = (item) => {
+const cartReducer = (state, action) => {
+  //use object literal
+  const actions = {
+    TOGGLE_HIDDEN: () => ({
+      ...state,
+      hidden: !state.hidden,
+    }), //this is a function that returns an object
+
+    ADD_ITEM: () => ({
+      ...state,
+      cartItems: addItemToCart(state.cartItems, action.payload),
+    }),
+
+    REMOVE_ITEM: () => ({
+      ...state,
+      cartItems: removeItemFromCart(state.cartItems, action.payload),
+    }),
+
+    CLEAR_ITEM_FROM_CART: () => ({
+      ...state,
+      cartItems: clearItemFromCart(state.cartItems, action.payload),
+    }),
+
+    //default case
+    default: () => state, //return the state
+  };
+  //define the addItemsToCart function
+  const addItemToCart = (cartItems, cartItemToAdd) => {
     const existingCartItem = cartItems.find(
-      (cartItem) => cartItem.id === item.id
+      (cartItem) => cartItem.id === cartItemToAdd.id
     );
-
-    // if item already exists in cart, increase quantity
     if (existingCartItem) {
-      setCartItems(
-        cartItems.map((cartItem) =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
-        )
+      return cartItems.map((cartItem) =>
+        cartItem.id === cartItemToAdd.id
+          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          : cartItem
       );
-    } else {
-      setCartItems([...cartItems, { ...item, quantity: 1 }]); // this happens when we add a new item to the cart
     }
+    return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
   };
 
-  const removeItemFromCart = (item) => {
+  //define the removeItemFromCart function
+  const removeItemFromCart = (cartItems, cartItemToRemove) => {
     const existingCartItem = cartItems.find(
-      (cartItem) => cartItem.id === item.id
+      (cartItem) => cartItem.id === cartItemToRemove.id
     );
-
     if (existingCartItem.quantity === 1) {
-      // if the quantity is 1, remove the item from the cart
-      setCartItems(cartItems.filter((cartItem) => cartItem.id !== item.id));
-    } else {
-      // if the quantity is more than 1, decrease the quantity by 1
-      setCartItems(
-        cartItems.map((cartItem) =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity - 1 }
-            : cartItem
-        )
+      return cartItems.filter(
+        (cartItem) => cartItem.id !== cartItemToRemove.id
       );
     }
+    return cartItems.map((cartItem) =>
+      cartItem.id === cartItemToRemove.id
+        ? { ...cartItem, quantity: cartItem.quantity - 1 }
+        : cartItem
+    );
   };
 
-  const clearItemFromCart = (item) => {
-    setCartItems(cartItems.filter((cartItem) => cartItem.id !== item.id));
+  //define the clearItemFromCart function
+  const clearItemFromCart = (cartItems, cartItemToClear) => {
+    return cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
   };
+  console.log("cartReducer", state);
+  //use the actions object to call the function
+  return actions[action.type] ? actions[action.type]() : actions.default();
+};
+
+export const CartProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(cartReducer, INITIAL_STATE);
+  const { hidden, cartItems } = state;
+
+  const toggleHidden = () => dispatch({ type: "TOGGLE_HIDDEN" });
+  const addItemToCart = (item) => dispatch({ type: "ADD_ITEM", payload: item });
+  const removeItemFromCart = (item) =>
+    dispatch({ type: "REMOVE_ITEM", payload: item });
+  const clearItemFromCart = (item) =>
+    dispatch({ type: "CLEAR_ITEM_FROM_CART", payload: item });
 
   const value = {
     hidden,
-    toggleHidden: () => setHidden(!hidden),
+    toggleHidden,
     cartItems,
     addItemToCart,
     removeItemFromCart,

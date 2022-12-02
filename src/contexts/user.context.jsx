@@ -25,7 +25,7 @@ const userReducer = (state, action) => {
     //default case
     default: () => state, //return the state
   };
-  console.log("userReducer", action.payload);
+  //console.log("userReducer", action.payload);
   //use the actions object to call the function
   return actions[action.type] ? actions[action.type]() : actions.default();
 };
@@ -35,7 +35,7 @@ export const UserProvider = ({ children }) => {
   //const [currentUser, setCurrentUser] = useState(null);
   const [state, dispatch] = useReducer(userReducer, { currentUser: null });
   const { currentUser } = state;
-  console.log("currentUser", currentUser);
+  //console.log("currentUser", currentUser);
   const setCurrentUser = (user) => {
     dispatch({ type: USER_ACTIONS.SET_CURRENT_USER, payload: user });
   };
