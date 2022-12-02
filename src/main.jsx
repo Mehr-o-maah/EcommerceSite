@@ -12,9 +12,13 @@ import ShopComponent from "./routes/shop/shop.component";
 import CheckoutComponent from "./routes/checkout/checkout.component";
 
 //Contexts
-import { UserProvider } from "./contexts/user.context";
+//import { UserProvider } from "./contexts/user.context";
 import { CategoriesProvider } from "./contexts/categories.context";
 import { CartProvider } from "./contexts/cart.context";
+
+//Redux
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const router = createBrowserRouter([
   {
@@ -31,12 +35,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <UserProvider>
+    <Provider store={store}>
       <CategoriesProvider>
         <CartProvider>
           <RouterProvider router={router} />
         </CartProvider>
       </CategoriesProvider>
-    </UserProvider>
+    </Provider>
   </React.StrictMode>
 );

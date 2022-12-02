@@ -10,11 +10,24 @@ import { CartContext } from "../../../contexts/cart.context";
 import { signOutAuthUser } from "../../../utils/firebase/firebase.utils";
 import CartDropdownComponent from "../../../components/cart-dropdown/cart-dropdown.component";
 
+import { setCurrentUser } from "../../../redux/user.reduxToolkit";
+import { useDispatch } from "react-redux";
+
 export default function Navigation() {
   const { currentUser } = useContext(UserContext);
   const { hidden } = useContext(CartContext);
   //console.log("Current user: ", currentUser);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener((user) => {
+      if (user) {
+        createUserDocumentFromAuth(user);
+      }
+      dispatch(setCurrentUser(user));
+    });
+
+    return unsubscribe;
+  }, []);
   return (
     <>
       <div className="navigation">
