@@ -1,3 +1,9 @@
+import { createContext, useEffect, useReducer } from "react";
+import {
+  onAuthStateChangedListener,
+  createUserDocumentFromAuth,
+} from "../utils/firebase/firebase.utils";
+
 import { Outlet, Link } from "react-router-dom";
 import cronwnLogo from "../../../assets/crown.svg";
 import "./navigation.styles.scss";
@@ -14,6 +20,17 @@ export default function Navigation() {
   const { currentUser } = useContext(UserContext);
   const { hidden } = useContext(CartContext);
   //console.log("Current user: ", currentUser);
+
+  useEffect(() => {
+    const unsubscribeFromAuth = onAuthStateChangedListener((user) => {
+      if (user) {
+        createUserDocumentFromAuth(user);
+      }
+      setCurrentUser(user);
+    });
+
+    return unsubscribeFromAuth;
+  }, []);
 
   return (
     <>
