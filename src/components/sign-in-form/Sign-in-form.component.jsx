@@ -2,8 +2,12 @@ import React, { useState, useContext } from "react";
 import {
   signInWithGooglePopup,
   createUserDocumentFromAuth,
+  onAuthStateChangedListener,
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
+import { setCurrentUser } from "../../redux/user.reducer";
+import { useDispatch } from "react-redux";
+
 import FormInput from "../form-input/form-input-component";
 import "./sign-in-form.styles.scss";
 import Button from "../button/button.component";
@@ -45,6 +49,20 @@ export default function SignInFormComponent() {
     await signInWithGooglePopup();
   };
 
+  //set user and dispatch
+  const dispatch = useDispatch();
+
+  //sign in
+  const signIn = () => {
+    onAuthStateChangedListener((user) => {
+      console.log("User: ", user);
+      if (user) {
+        createUserDocumentFromAuth(user);
+      }
+      dispatch(setCurrentUser(user));
+    });
+  };
+
   return (
     <div>
       <h2>Already have an account?</h2>
@@ -66,7 +84,9 @@ export default function SignInFormComponent() {
           required
         />
         <div className="buttons-container">
-          <Button type="submit">Sign In</Button>
+          <Button onClick={signIn} type="submit">
+            Sign In
+          </Button>
           <Button type="button" buttonType="google" onClick={signInWithGoogle}>
             Sign In with Google
           </Button>

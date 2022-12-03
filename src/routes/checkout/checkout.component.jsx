@@ -1,7 +1,6 @@
 import "./checkout.styles.scss";
 import { useContext } from "react";
 import { CartContext } from "../../contexts/cart.context";
-import { UserContext } from "../../contexts/user.context";
 import { useNavigate } from "react-router-dom";
 
 import CheckoutItemComponent from "../../components/checkout-item/checkout-item.component";

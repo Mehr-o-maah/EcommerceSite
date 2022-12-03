@@ -3,31 +3,25 @@ import cronwnLogo from "../../../assets/crown.svg";
 import "./navigation.styles.scss";
 
 import CartIconComponent from "../../../components/cart-icon/cart-icon-component";
-import { useContext } from "react";
-import { UserContext } from "../../../contexts/user.context";
 import { CartContext } from "../../../contexts/cart.context";
+import { useContext } from "react";
+
+import { useSelector } from "react-redux";
 
 import { signOutAuthUser } from "../../../utils/firebase/firebase.utils";
 import CartDropdownComponent from "../../../components/cart-dropdown/cart-dropdown.component";
 
-import { setCurrentUser } from "../../../redux/user.reduxToolkit";
-import { useDispatch } from "react-redux";
-
 export default function Navigation() {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useSelector((state) => state.user);
   const { hidden } = useContext(CartContext);
-  //console.log("Current user: ", currentUser);
+  console.log("Current user: ", currentUser?.displayName);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
-      if (user) {
-        createUserDocumentFromAuth(user);
-      }
-      dispatch(setCurrentUser(user));
-    });
+  const userNameStyle = {
+    fontSize: "1.2rem",
+    textTransform: "capitalize",
+    marginRight: "1rem",
+  };
 
-    return unsubscribe;
-  }, []);
   return (
     <>
       <div className="navigation">
@@ -47,6 +41,7 @@ export default function Navigation() {
               SIGN IN
             </Link>
           )}
+          <span style={userNameStyle}>{currentUser?.displayName}</span>
           <CartIconComponent />
         </div>
         {!hidden && <CartDropdownComponent />}
