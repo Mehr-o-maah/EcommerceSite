@@ -44,13 +44,16 @@ export default function SignInFormComponent() {
     }
   };
 
-  //!not in use
-  const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
-  };
-
   //set user and dispatch
   const dispatch = useDispatch();
+
+  const signInWithGoogle = async () => {
+    const { user } = await signInWithGooglePopup();
+    await createUserDocumentFromAuth(user);
+    console.log(user?.displayName);
+
+    user && dispatch(setCurrentUser(user?.displayName || user?.email));
+  };
 
   //sign in
   const signIn = () => {
@@ -59,7 +62,7 @@ export default function SignInFormComponent() {
       if (user) {
         createUserDocumentFromAuth(user);
       }
-      dispatch(setCurrentUser(user));
+      user && dispatch(setCurrentUser(user?.displayName || user?.email));
     });
   };
 

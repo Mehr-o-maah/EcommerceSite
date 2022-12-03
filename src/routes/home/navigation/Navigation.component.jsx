@@ -14,7 +14,7 @@ import CartDropdownComponent from "../../../components/cart-dropdown/cart-dropdo
 export default function Navigation() {
   const { currentUser } = useSelector((state) => state.user);
   const { hidden } = useContext(CartContext);
-  console.log("Current user: ", currentUser?.displayName);
+  console.log("Current user: ", currentUser);
 
   const userNameStyle = {
     fontSize: "1.2rem",
@@ -41,7 +41,7 @@ export default function Navigation() {
               SIGN IN
             </Link>
           )}
-          <span style={userNameStyle}>{currentUser?.displayName}</span>
+          <span style={userNameStyle}>{currentUser}</span>
           <CartIconComponent />
         </div>
         {!hidden && <CartDropdownComponent />}
