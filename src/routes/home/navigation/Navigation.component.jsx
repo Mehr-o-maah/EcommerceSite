@@ -3,18 +3,27 @@ import cronwnLogo from "../../../assets/crown.svg";
 import "./navigation.styles.scss";
 
 import CartIconComponent from "../../../components/cart-icon/cart-icon-component";
-import { CartContext } from "../../../contexts/cart.context";
-import { useContext } from "react";
 
 import { useSelector } from "react-redux";
+import { toggleCartHidden } from "../../../redux/cart.reducer";
+import { useDispatch } from "react-redux";
 
 import { signOutAuthUser } from "../../../utils/firebase/firebase.utils";
 import CartDropdownComponent from "../../../components/cart-dropdown/cart-dropdown.component";
 
 export default function Navigation() {
-  const { currentUser } = useSelector((state) => state.user);
-  const { hidden } = useContext(CartContext);
-  console.log("Current user: ", currentUser);
+  // const { currentUser } = useSelector((state) => state.user);
+  // const { hidden } = useContext(CartContext);
+  const { currentUser, hidden } = useSelector((state) => state.cart);
+  console.log(
+    "Current user from Navigation component: ",
+    currentUser,
+    "Hidden: ",
+    hidden
+  );
+
+  const dispatch = useDispatch();
+  const toggleCart = () => dispatch(toggleCartHidden());
 
   const userNameStyle = {
     fontSize: "1.2rem",

@@ -7,6 +7,7 @@ export default function CheckoutItemComponent({
   clearItemFromCart,
 }) {
   const { imageUrl, price, name, quantity } = cartItem;
+  console.log("cartItem from cart item:", cartItem);
   return (
     <div className="checkout-item-container">
       <div className="image-container">

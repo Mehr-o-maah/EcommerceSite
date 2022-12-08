@@ -1,14 +1,30 @@
 import "./checkout.styles.scss";
-import { useContext } from "react";
-import { CartContext } from "../../contexts/cart.context";
+// //import { useContext } from "react";
+// import { CartContext } from "../../contexts/cart.context";
 import { useNavigate } from "react-router-dom";
 
 import CheckoutItemComponent from "../../components/checkout-item/checkout-item.component";
+import PaymentForm from "../../components/payment-form/payment-form.component";
+
+//Using Redux
+import { useSelector } from "react-redux";
+import {
+  addItem,
+  removeItem,
+  clearItemFromCart,
+} from "../../redux/cart.reducer";
+import { useDispatch } from "react-redux";
 
 export default function CheckoutComponent() {
-  const { cartItems, addItemToCart, removeItemFromCart, clearItemFromCart } =
-    useContext(CartContext);
-  const { currentUser } = useContext(UserContext);
+  const { cartItems } = useSelector((state) => state.cart);
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch(); // dispatch action
+  console.log("cart items:", cartItems);
+
+  const addItemToCart = (item) => dispatch(addItem(item));
+  const removeItemFromCart = (item) => dispatch(removeItem(item));
+  const clearItemFromCart = (item) => dispatch(clearItemFromCart(item));
+
   const navigate = useNavigate();
 
   const handleCheckout = () => {
@@ -38,15 +54,30 @@ export default function CheckoutComponent() {
           <span>Remove</span>
         </div>
       </div>
-      {cartItems.map((cartItem) => (
-        <CheckoutItemComponent
-          key={cartItem.id}
-          cartItem={cartItem}
-          addItemToCart={() => addItemToCart(cartItem)}
-          removeItemFromCart={() => removeItemFromCart(cartItem)}
-          clearItemFromCart={() => clearItemFromCart(cartItem)}
-        />
-      ))}
+      {
+        //using context
+        // cartItems.map((cartItem) => (
+        //   <CheckoutItemComponent
+        //     key={cartItem.id}
+        //     cartItem={cartItem}
+        //     addItemToCart={() => addItemToCart(cartItem)}
+        //     removeItemFromCart={() => removeItemFromCart(cartItem)}
+        //     clearItemFromCart={() => clearItemFromCart(cartItem)}
+        //   />
+
+        // ))
+
+        //using redux
+        cartItems.map((cartItem) => (
+          <CheckoutItemComponent
+            key={cartItem.id}
+            cartItem={cartItem}
+            addItemToCart={() => addItemToCart(cartItem)}
+            removeItemFromCart={() => removeItemFromCart(cartItem)}
+            clearItemFromCart={() => clearItemFromCart(cartItem)}
+          />
+        ))
+      }
       <div className="total">
         <span>
           TOTAL: $
@@ -60,7 +91,7 @@ export default function CheckoutComponent() {
       <div className="test-warning">
         *Please use the following test credit card for payments*
         <br />
-        4242 4242 4242 4242 - Exp: 01/22 - CVV: 123
+        <PaymentForm />
       </div>
       <button onClick={handleCheckout} className="button">
         CHECKOUT

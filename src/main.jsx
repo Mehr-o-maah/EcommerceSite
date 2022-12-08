@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-//import App from "./App";
 import "./index.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Elements } from "@stripe/react-stripe-js";
+import { stripePromise } from "./utils/stripe/stripe.utils";
 
 //Components
 import Home from "./routes/home/Home.component";
@@ -13,7 +14,6 @@ import CheckoutComponent from "./routes/checkout/checkout.component";
 
 //Contexts
 //import { UserProvider } from "./contexts/user.context";
-import { CategoriesProvider } from "./contexts/categories.context";
 import { CartProvider } from "./contexts/cart.context";
 
 //Redux
@@ -36,11 +36,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <CategoriesProvider>
-        <CartProvider>
+      <CartProvider>
+        <Elements stripe={stripePromise}>
           <RouterProvider router={router} />
-        </CartProvider>
-      </CategoriesProvider>
+        </Elements>
+      </CartProvider>
     </Provider>
   </React.StrictMode>
 );
