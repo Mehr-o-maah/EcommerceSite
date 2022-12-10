@@ -23,7 +23,7 @@ export default function CheckoutComponent() {
 
   const addItemToCart = (item) => dispatch(addItem(item));
   const removeItemFromCart = (item) => dispatch(removeItem(item));
-  const clearItemFromCart = (item) => dispatch(clearItemFromCart(item));
+  const clearItem = (item) => dispatch(clearItemFromCart(item));
 
   const navigate = useNavigate();
 
@@ -74,7 +74,7 @@ export default function CheckoutComponent() {
             cartItem={cartItem}
             addItemToCart={() => addItemToCart(cartItem)}
             removeItemFromCart={() => removeItemFromCart(cartItem)}
-            clearItemFromCart={() => clearItemFromCart(cartItem)}
+            clearItemFromCart={() => clearItem(cartItem)}
           />
         ))
       }

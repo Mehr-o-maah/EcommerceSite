@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils";
 
-const Products = await getCategoriesAndDocuments("categories");
+//const Products = await getCategoriesAndDocuments("categories");
+//dont use top level await in production for Products
+const Products = async () => {
+  return await getCategoriesAndDocuments("categories");
+};
+
 const INITIAL_STATE = {
   hidden: true,
   categoriesMap: Products,
@@ -37,7 +42,21 @@ const cartSlice = createSlice({
       }
     },
     removeItem: (state, action) => {
-      state.cartItems = removeItemFromCart(state.cartItems, action.payload);
+      const existingCartItem = state.cartItems.find(
+        (cartItem) => cartItem.id === action.payload.id
+      );
+      if (existingCartItem.quantity === 1) {
+        //if the quantity is 1, remove the item from the cart
+        state.cartItems = state.cartItems.filter(
+          (cartItem) => cartItem.id !== action.payload.id
+        );
+      } else {
+        state.cartItems = state.cartItems.map((cartItem) =>
+          cartItem.id === action.payload.id
+            ? { ...cartItem, quantity: cartItem.quantity - 1 }
+            : cartItem
+        );
+      }
     },
     clearItemFromCart: (state, action) => {
       state.cartItems = state.cartItems.filter(
