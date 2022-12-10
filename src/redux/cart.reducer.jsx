@@ -4,12 +4,12 @@ import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils";
 //const Products = await getCategoriesAndDocuments("categories");
 //dont use top level await in production for Products
 const Products = async () => {
-  return await getCategoriesAndDocuments("categories");
+  return getCategoriesAndDocuments("categories");
 };
 
 const INITIAL_STATE = {
   hidden: true,
-  categoriesMap: Products,
+  categoriesMap: await Products(),
   cartItems: [],
 };
 
