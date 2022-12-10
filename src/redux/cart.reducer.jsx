@@ -2,18 +2,35 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils";
 
 //const Products = await getCategoriesAndDocuments("categories");
-//dont use top level await in production for Products
+
 const Products = async () => {
-  return getCategoriesAndDocuments("categories");
+  const products = await getCategoriesAndDocuments("categories").then(
+    (products) => {
+      return products;
+    }
+  );
+  return products;
 };
 
 const INITIAL_STATE = {
   hidden: true,
-  categoriesMap: await Products(),
+  categoriesMap: {},
   cartItems: [],
 };
+const setCategoriesMap = async () => {
+  const products = await Products();
+  INITIAL_STATE.categoriesMap = products;
+};
+await setCategoriesMap();
 
-console.log(INITIAL_STATE.cartItems);
+// // const products = await Products();
+// const INITIAL_STATE = {
+//   hidden: true,
+//   categoriesMap: Products,
+//   cartItems: [],
+// };
+
+console.log("INITIAL STATE: ", INITIAL_STATE.categoriesMap);
 
 const cartSlice = createSlice({
   name: "cart",
