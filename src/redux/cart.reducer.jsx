@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils";
 
-//const Products = await getCategoriesAndDocuments("categories");
+const Products = await getCategoriesAndDocuments("categories");
 //dont use top level await in production for Products
-const Products = async () => {
-  return await getCategoriesAndDocuments("categories");
-};
+// const Products = async () => {
+//   return await getCategoriesAndDocuments("categories");
+// };
 
 const INITIAL_STATE = {
   hidden: true,
