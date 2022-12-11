@@ -7,13 +7,13 @@ import CartIconComponent from "../../../components/cart-icon/cart-icon-component
 import { useSelector } from "react-redux";
 import { toggleCartHidden } from "../../../redux/cart.reducer";
 import { useDispatch } from "react-redux";
+import { fetchProducts } from "../../../redux/cart.reducer";
 
 import { signOutAuthUser } from "../../../utils/firebase/firebase.utils";
 import CartDropdownComponent from "../../../components/cart-dropdown/cart-dropdown.component";
+import { useEffect } from "react";
 
 export default function Navigation() {
-  // const { currentUser } = useSelector((state) => state.user);
-  // const { hidden } = useContext(CartContext);
   const { currentUser, hidden } = useSelector((state) => state.cart);
   console.log(
     "Current user from Navigation component: ",
@@ -23,7 +23,11 @@ export default function Navigation() {
   );
 
   const dispatch = useDispatch();
-  const toggleCart = () => dispatch(toggleCartHidden());
+  //const toggleCart = () => dispatch(toggleCartHidden());
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
 
   const userNameStyle = {
     fontSize: "1.2rem",

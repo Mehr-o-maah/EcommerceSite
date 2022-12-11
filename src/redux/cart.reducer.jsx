@@ -1,36 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils";
+import { useDispatch } from "react-redux";
 
 //const Products = await getCategoriesAndDocuments("categories");
-
-const Products = async () => {
-  const products = await getCategoriesAndDocuments("categories").then(
-    (products) => {
-      return products;
-    }
-  );
-  return products;
-};
-
 const INITIAL_STATE = {
   hidden: true,
   categoriesMap: {},
   cartItems: [],
 };
-const setCategoriesMap = async () => {
-  const products = await Products();
-  INITIAL_STATE.categoriesMap = products;
-};
-await setCategoriesMap();
 
-// // const products = await Products();
-// const INITIAL_STATE = {
-//   hidden: true,
-//   categoriesMap: Products,
-//   cartItems: [],
-// };
-
-console.log("INITIAL STATE: ", INITIAL_STATE.categoriesMap);
+export const fetchProducts = createAsyncThunk(
+  "cart/fetchProducts", // action type
+  async () => {
+    const Products = await getCategoriesAndDocuments("categories");
+    return Products;
+  }
+);
 
 const cartSlice = createSlice({
   name: "cart",
@@ -79,6 +64,11 @@ const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter(
         (cartItem) => cartItem.id !== action.payload.id
       );
+    },
+  },
+  extraReducers: {
+    [fetchProducts.fulfilled]: (state, action) => {
+      state.categoriesMap = action.payload;
     },
   },
 });
