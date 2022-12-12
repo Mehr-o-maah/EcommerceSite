@@ -8,4 +8,5 @@ export async function post(req, res) {
     currency: "usd",
   });
   res.end(JSON.stringify({ clientSecret: paymentIntent.client_secret }));
+  console.log("PaymentIntent created: ", paymentIntent.id);
 }
