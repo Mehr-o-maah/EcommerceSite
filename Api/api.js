@@ -10,3 +10,11 @@ export async function post(req, res) {
   res.end(JSON.stringify({ clientSecret: paymentIntent.client_secret }));
   console.log("PaymentIntent created: ", paymentIntent.id);
 }
+
+export default function handler(request, response) {
+  response.status(200).json({
+    body: request.body,
+    query: request.query,
+    cookies: request.cookies,
+  });
+}
