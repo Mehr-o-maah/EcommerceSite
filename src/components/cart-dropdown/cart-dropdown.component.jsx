@@ -11,7 +11,7 @@ export default function CartDropdownComponent() {
   const { cartItems } = useSelector((state) => state.cart);
   const navigate = useNavigate();
 
-  console.log("cart items:", cartItems);
+  //console.log("cart items:", cartItems);
 
   const handleCheckout = () => {
     navigate("/checkout");

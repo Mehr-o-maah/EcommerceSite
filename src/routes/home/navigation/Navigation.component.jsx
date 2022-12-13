@@ -15,12 +15,6 @@ import { useEffect } from "react";
 
 export default function Navigation() {
   const { currentUser, hidden } = useSelector((state) => state.cart);
-  console.log(
-    "Current user from Navigation component: ",
-    currentUser,
-    "Hidden: ",
-    hidden
-  );
 
   const dispatch = useDispatch();
   //const toggleCart = () => dispatch(toggleCartHidden());

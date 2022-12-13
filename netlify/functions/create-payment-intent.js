@@ -3,8 +3,8 @@ require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export async function handler(event, context) {
-  console.log(event);
-  console.log(context);
+  //console.log(event);
+  //console.log(context);
   try {
     const { amount } = JSON.parse(event.body);
 

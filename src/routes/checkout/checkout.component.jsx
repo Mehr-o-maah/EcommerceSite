@@ -19,7 +19,7 @@ export default function CheckoutComponent() {
   const { cartItems } = useSelector((state) => state.cart);
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch(); // dispatch action
-  console.log("cart items:", cartItems);
+  //console.log("cart items:", cartItems);
 
   const addItemToCart = (item) => dispatch(addItem(item));
   const removeItemFromCart = (item) => dispatch(removeItem(item));
