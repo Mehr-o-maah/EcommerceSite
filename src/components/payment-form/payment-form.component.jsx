@@ -1,11 +1,14 @@
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import Button from "../button/button.component";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 export default function PaymentForm() {
   const stripe = useStripe();
   const elements = useElements();
   const currentUser = useSelector((state) => state.user.currentUser);
+  const cartTotal = useSelector((state) => state.cart.cartTotal);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -13,13 +16,17 @@ export default function PaymentForm() {
     if (!stripe || !elements) {
       return;
     }
-
+    if (!currentUser) {
+      alert("Please login to continue");
+      return;
+    }
+    setIsProcessingPayment(true);
     const response = await fetch("/.netlify/functions/create-payment-intent", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: 1000 }),
+      body: JSON.stringify({ amount: cartTotal * 100 }),
     }).then((res) => res.json());
 
     const {
@@ -50,7 +57,9 @@ export default function PaymentForm() {
     <form onSubmit={handleSubmit}>
       <h2>Credit Card Payment: </h2>
       <CardElement />
-      <Button buttonType="inverted">Pay</Button>
+      <Button disabled={isProcessingPayment} buttonType="inverted">
+        {!isProcessingPayment ? "Pay" : "Processing"}
+      </Button>
     </form>
   );
 }

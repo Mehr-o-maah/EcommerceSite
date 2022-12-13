@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   hidden: true,
   categoriesMap: {},
   cartItems: [],
+  cartTotal: 0,
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -42,6 +43,8 @@ const cartSlice = createSlice({
           { ...action.payload, quantity: 1 }, //quantity: 1 is the new property
         ];
       }
+      //update the cart total
+      state.cartTotal = state.cartTotal + action.payload.price;
     },
     removeItem: (state, action) => {
       const existingCartItem = state.cartItems.find(
@@ -59,11 +62,16 @@ const cartSlice = createSlice({
             : cartItem
         );
       }
+      //update the cart total
+      state.cartTotal = state.cartTotal - action.payload.price;
     },
     clearItemFromCart: (state, action) => {
       state.cartItems = state.cartItems.filter(
         (cartItem) => cartItem.id !== action.payload.id
       );
+      //update the cart total
+      state.cartTotal =
+        state.cartTotal - action.payload.price * action.payload.quantity;
     },
   },
   extraReducers: {
