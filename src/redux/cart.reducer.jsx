@@ -73,6 +73,10 @@ const cartSlice = createSlice({
       state.cartTotal =
         state.cartTotal - action.payload.price * action.payload.quantity;
     },
+    clearCart: (state) => {
+      state.cartItems = [];
+      state.cartTotal = 0;
+    },
   },
   extraReducers: {
     [fetchProducts.fulfilled]: (state, action) => {
@@ -81,7 +85,12 @@ const cartSlice = createSlice({
   },
 });
 
-export const { toggleCartHidden, addItem, removeItem, clearItemFromCart } =
-  cartSlice.actions; // export action
+export const {
+  toggleCartHidden,
+  addItem,
+  removeItem,
+  clearItemFromCart,
+  clearCart,
+} = cartSlice.actions; // export action
 
 export default cartSlice.reducer; // export the reducer

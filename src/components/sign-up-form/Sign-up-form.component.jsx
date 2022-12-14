@@ -33,7 +33,7 @@ export default function SignUpFormComponent() {
         proactiveRefresh: { user },
       } = await createAuthUserWithEmailAndPassword(email, password);
 
-      // console.log(user);
+      // //console.log(user);
 
       await createUserDocumentFromAuth(user, { displayName });
     } catch (error) {

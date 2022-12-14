@@ -12,15 +12,12 @@ import FormInput from "../form-input/form-input-component";
 import "./sign-in-form.styles.scss";
 import Button from "../button/button.component";
 
-import { useSelector } from "react-redux";
-
 export default function SignInFormComponent() {
   const [formFields, setFormFields] = useState({
     email: "",
     password: "",
   });
   const { email, password } = formFields;
-  const { currentUser } = useSelector((state) => state.user);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -37,7 +34,7 @@ export default function SignInFormComponent() {
         password
       );
 
-      //console.log(response.user);
+      ////console.log(response.user);
     } catch (error) {
       const errorCodes = {
         "auth/user-not-found": "User not found. Please sign up.",
@@ -53,7 +50,7 @@ export default function SignInFormComponent() {
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
     await createUserDocumentFromAuth(user);
-    console.log(user?.displayName);
+    //console.log(user?.displayName);
 
     user && dispatch(setCurrentUser(user?.displayName || user?.email));
   };
@@ -61,7 +58,7 @@ export default function SignInFormComponent() {
   //sign in
   const signIn = () => {
     onAuthStateChangedListener((user) => {
-      console.log("User: ", user);
+      //console.log("User: ", user);
       if (user) {
         createUserDocumentFromAuth(user);
       }

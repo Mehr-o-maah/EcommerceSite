@@ -2,7 +2,7 @@ import "./cart-item.styles.scss";
 
 export default function CartItemComponent({ cartItem }) {
   const { imageUrl, price, name, quantity } = cartItem;
-  //console.log("cartItem from cart item:", cartItem);
+  ////console.log("cartItem from cart item:", cartItem);
   return (
     <div className="cart-item-container">
       <img src={imageUrl} alt={`${name}`} />

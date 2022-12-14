@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 export default function CategoryComponent() {
   const { categoryId } = useParams();
   const { categoriesMap } = useSelector((state) => state.cart);
-  //console.log("cart items:", categoriesMap);
+  ////console.log("cart items:", categoriesMap);
 
   return (
     <div className="category">

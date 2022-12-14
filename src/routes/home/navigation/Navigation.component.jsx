@@ -5,9 +5,9 @@ import "./navigation.styles.scss";
 import CartIconComponent from "../../../components/cart-icon/cart-icon-component";
 
 import { useSelector } from "react-redux";
-import { toggleCartHidden } from "../../../redux/cart.reducer";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "../../../redux/cart.reducer";
+import { setCurrentUser } from "../../../redux/user.reducer";
 
 import { signOutAuthUser } from "../../../utils/firebase/firebase.utils";
 import CartDropdownComponent from "../../../components/cart-dropdown/cart-dropdown.component";
@@ -30,7 +30,11 @@ export default function Navigation() {
     marginRight: "1rem",
   };
 
-  console.log("currentUser:", currentUser);
+  //console.log("currentUser:", currentUser);
+  const signOut = () => {
+    signOutAuthUser();
+    dispatch(setCurrentUser(null));
+  };
 
   return (
     <>
@@ -43,7 +47,7 @@ export default function Navigation() {
             SHOP
           </Link>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutAuthUser}>
+            <span className="nav-link" onClick={signOut}>
               Sign Out
             </span>
           ) : (

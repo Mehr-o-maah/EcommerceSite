@@ -18,7 +18,7 @@ export default function CartIconComponent() {
   const dispatch = useDispatch();
   const displayCart = () => dispatch(toggleCartHidden());
 
-  //console.log(hidden);
+  ////console.log(hidden);
 
   return (
     <div onClick={displayCart} className="cart-icon-container">

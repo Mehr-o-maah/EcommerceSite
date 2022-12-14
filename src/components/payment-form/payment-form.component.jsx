@@ -2,7 +2,9 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import Button from "../button/button.component";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "../../redux/cart.reducer";
+import { useDispatch } from "react-redux";
 
 export default function PaymentForm() {
   const stripe = useStripe();
@@ -10,6 +12,7 @@ export default function PaymentForm() {
   const currentUser = useSelector((state) => state.user.currentUser);
   const cartTotal = useSelector((state) => state.cart.cartTotal);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,9 +22,7 @@ export default function PaymentForm() {
     }
     if (!currentUser) {
       alert("Please login to continue");
-      const navigate = new Navigate();
-      navigate("/login");
-      return;
+      navigate("/auth");
     }
     setIsProcessingPayment(true);
     const response = await fetch("/.netlify/functions/create-payment-intent", {
@@ -35,7 +36,7 @@ export default function PaymentForm() {
     const {
       paymentIntent: { client_secret },
     } = response;
-    console.log(client_secret);
+    ////console.log(client_secret);
 
     const result = await stripe.confirmCardPayment(client_secret, {
       payment_method: {
@@ -52,6 +53,8 @@ export default function PaymentForm() {
     } else {
       if (result.paymentIntent.status === "succeeded") {
         alert("Payment succeeded!");
+        setIsProcessingPayment(false);
+        dispatch(clearCart());
       }
     }
   };

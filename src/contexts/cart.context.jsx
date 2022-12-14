@@ -76,7 +76,7 @@ const cartReducer = (state, action) => {
   const clearItemFromCart = (cartItems, cartItemToClear) => {
     return cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
   };
-  console.log("cartReducer", state);
+  //console.log("cartReducer", state);
   //use the actions object to call the function
   return actions[action.type] ? actions[action.type]() : actions.default();
 };

@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 
 export default function ProductCardComponent({ product }) {
   const { name, price, imageUrl } = product;
-  //console.log("product from product card:", product);
+  ////console.log("product from product card:", product);
   const dispatch = useDispatch(); // dispatch action
   const addItemToCart = () => dispatch(addItem(product));
 
