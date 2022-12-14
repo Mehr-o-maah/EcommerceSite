@@ -12,12 +12,15 @@ import FormInput from "../form-input/form-input-component";
 import "./sign-in-form.styles.scss";
 import Button from "../button/button.component";
 
+import { useSelector } from "react-redux";
+
 export default function SignInFormComponent() {
   const [formFields, setFormFields] = useState({
     email: "",
     password: "",
   });
   const { email, password } = formFields;
+  const { currentUser } = useSelector((state) => state.user);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;

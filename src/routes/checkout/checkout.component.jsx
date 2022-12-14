@@ -17,7 +17,6 @@ import { useDispatch } from "react-redux";
 
 export default function CheckoutComponent() {
   const { cartItems } = useSelector((state) => state.cart);
-  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch(); // dispatch action
   //console.log("cart items:", cartItems);
 
@@ -26,14 +25,6 @@ export default function CheckoutComponent() {
   const clearItem = (item) => dispatch(clearItemFromCart(item));
 
   const navigate = useNavigate();
-
-  const handleCheckout = () => {
-    if (currentUser) {
-      navigate("/checkout");
-    } else {
-      navigate("/auth");
-    }
-  };
 
   return (
     <div className="checkout-container">
@@ -93,9 +84,6 @@ export default function CheckoutComponent() {
         <br />
         <PaymentForm />
       </div>
-      <button onClick={handleCheckout} className="button">
-        CHECKOUT
-      </button>
     </div>
   );
 }

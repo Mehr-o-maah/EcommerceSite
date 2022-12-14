@@ -2,6 +2,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import Button from "../button/button.component";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 export default function PaymentForm() {
   const stripe = useStripe();
@@ -18,6 +19,8 @@ export default function PaymentForm() {
     }
     if (!currentUser) {
       alert("Please login to continue");
+      const navigate = new Navigate();
+      navigate("/login");
       return;
     }
     setIsProcessingPayment(true);

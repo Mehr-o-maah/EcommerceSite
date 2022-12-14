@@ -14,7 +14,8 @@ import CartDropdownComponent from "../../../components/cart-dropdown/cart-dropdo
 import { useEffect } from "react";
 
 export default function Navigation() {
-  const { currentUser, hidden } = useSelector((state) => state.cart);
+  const { hidden } = useSelector((state) => state.cart);
+  const { currentUser } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   //const toggleCart = () => dispatch(toggleCartHidden());
@@ -28,6 +29,8 @@ export default function Navigation() {
     textTransform: "capitalize",
     marginRight: "1rem",
   };
+
+  console.log("currentUser:", currentUser);
 
   return (
     <>
