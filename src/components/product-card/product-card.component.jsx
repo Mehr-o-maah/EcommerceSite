@@ -1,5 +1,5 @@
 import "./product-card.styles.scss";
-import Button from "../button/button.component";
+import { Button } from "../button/button.component";
 
 //Using Redux
 //import { useSelector } from "react-redux";

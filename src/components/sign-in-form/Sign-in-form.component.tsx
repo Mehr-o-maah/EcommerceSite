@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import {
   signInWithGooglePopup,
   createUserDocumentFromAuth,
@@ -8,9 +8,9 @@ import {
 import { setCurrentUser } from "../../redux/user.reducer";
 import { useDispatch } from "react-redux";
 
-import FormInput from "../form-input/form-input-component";
+import { FormInputComponent } from "../form-input/form-input-component";
 import "./sign-in-form.styles.scss";
-import Button from "../button/button.component";
+import { Button } from "../button/button.component";
 
 export default function SignInFormComponent() {
   const [formFields, setFormFields] = useState({
@@ -19,28 +19,26 @@ export default function SignInFormComponent() {
   });
   const { email, password } = formFields;
 
-  const onChangeInput = (e) => {
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormFields({ ...formFields, [name]: value });
   };
 
-  const onSubmitForm = async (e) => {
+  const onSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await signInAuthUserWithEmailAndPassword(email, password);
 
       ////console.log(response.user);
-    } catch (error) {
+    } catch (error: any) {
       const errorCodes = {
         "auth/user-not-found": "User not found. Please sign up.",
         "auth/wrong-password": "Wrong password. Please try again.",
       };
-      alert(errorCodes[error.code]);
+      const code: keyof typeof errorCodes = error.code;
+      alert(errorCodes[code]);
     }
   };
 
@@ -57,20 +55,22 @@ export default function SignInFormComponent() {
 
   //sign in
   const signIn = () => {
-    onAuthStateChangedListener((user) => {
-      //console.log("User: ", user);
-      if (user) {
-        createUserDocumentFromAuth(user);
+    onAuthStateChangedListener(
+      (user: { displayName: string; email: string }) => {
+        //console.log("User: ", user);
+        if (user) {
+          createUserDocumentFromAuth(user);
+        }
+        user && dispatch(setCurrentUser(user?.displayName || user?.email));
       }
-      user && dispatch(setCurrentUser(user?.displayName || user?.email));
-    });
+    );
   };
 
   return (
     <div>
       <h2>Already have an account?</h2>
       <form onSubmit={onSubmitForm}>
-        <FormInput
+        <FormInputComponent
           label="Email"
           type="email"
           name="email"
@@ -78,7 +78,7 @@ export default function SignInFormComponent() {
           onChange={onChangeInput}
           required
         />
-        <FormInput
+        <FormInputComponent
           label="Password"
           type="password"
           name="password"

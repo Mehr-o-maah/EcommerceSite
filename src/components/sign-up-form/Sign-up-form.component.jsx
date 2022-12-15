@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
-import FormInput from "../form-input/form-input-component";
+import { FormInputComponent } from "../form-input/form-input-component";
 import "./sign-up-form.styles.scss";
-import Button from "../button/button.component";
+import { Button } from "../button/button.component";
 
 export default function SignUpFormComponent() {
   const [formFields, setFormFields] = useState({
@@ -47,7 +47,7 @@ export default function SignUpFormComponent() {
       <h2>Don't have an account?</h2>
       <h3>Sign up with your email</h3>
       <form onSubmit={onSubmitForm}>
-        <FormInput
+        <FormInputComponent
           label="Display Name"
           type="text"
           name="displayName"
@@ -55,7 +55,7 @@ export default function SignUpFormComponent() {
           onChange={onChangeInput}
           required
         />
-        <FormInput
+        <FormInputComponent
           label="Email"
           type="email"
           name="email"
@@ -63,7 +63,7 @@ export default function SignUpFormComponent() {
           onChange={onChangeInput}
           required
         />
-        <FormInput
+        <FormInputComponent
           label="Password"
           type="password"
           name="password"
@@ -71,7 +71,7 @@ export default function SignUpFormComponent() {
           onChange={onChangeInput}
           required
         />
-        <FormInput
+        <FormInputComponent
           label="Confirm Password"
           type="password"
           name="confirmPassword"

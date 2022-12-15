@@ -1,5 +1,5 @@
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import Button from "../button/button.component";
+import { Button } from "../button/button.component";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
