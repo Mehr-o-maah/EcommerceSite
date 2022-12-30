@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { CartContext } from "../../contexts/cart.context";
 import { UserContext } from "../../contexts/user.context";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/button/button.component";
 
 import CheckoutItemComponent from "../../components/checkout-item/checkout-item.component";
 
@@ -63,9 +64,9 @@ export default function CheckoutComponent() {
         <br />
         4242 4242 4242 4242 - Exp: 01/22 - CVV: 123
       </div>
-      <button onClick={handleCheckout} className="button">
+      <Button onClick={handleCheckout} buttonType="inverted">
         CHECKOUT
-      </button>
+      </Button>
     </div>
   );
 }
