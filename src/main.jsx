@@ -2,8 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Elements } from "@stripe/react-stripe-js";
-import { stripePromise } from "./utils/stripe/stripe.utils";
 
 //Components
 import Home from "./routes/home/Home.component";
@@ -19,6 +17,9 @@ import { CartProvider } from "./contexts/cart.context";
 //Redux
 import { Provider } from "react-redux";
 import store from "./redux/store";
+
+//paypal integration
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const router = createBrowserRouter([
   {
@@ -36,11 +37,15 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <CartProvider>
-        <Elements stripe={stripePromise}>
+      <PayPalScriptProvider
+        options={{
+          "client-id": "id client",
+        }}
+      >
+        <CartProvider>
           <RouterProvider router={router} />
-        </Elements>
-      </CartProvider>
+        </CartProvider>
+      </PayPalScriptProvider>
     </Provider>
   </React.StrictMode>
 );
