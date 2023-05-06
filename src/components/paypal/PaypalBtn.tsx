@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
 interface paypalBtnProps {
@@ -22,17 +22,9 @@ const PaypalBtn: React.FC<paypalBtnProps> = ({ amount, invoiceId }) => {
     const order = await actions.order?.capture();
     console.log(order);
 
-    //TODO call backend function to fulfill order
-    //! should I get this info here or in the backend? because one solution is to send this info from here to the backend and then send it back to the frontend to display it
-    //! 🌟 I think is better to do this from the backend, calling an api to get transaction info and then display it in the frontend using fetch, that way I dont need a database to store payment info
+    // TODO: Call backend function to fulfill order using currentInvoiceId
 
-    //if response is success
     setPaidFor(true);
-    //refresh user account, display bought items
-
-    //if response is error
-    //display error message
-    //setError("Your payment was processed successfully. However, there was an error in fulfilling your order. Please contact us at... to resolve this issue.");
   };
 
   const handleError = (err: any) => {
@@ -48,16 +40,10 @@ const PaypalBtn: React.FC<paypalBtnProps> = ({ amount, invoiceId }) => {
   }
 
   const handleCancel = (data: any, actions: any) => {
-    //Display cancel message, modal or redirect user to cancel page or back to cart
     console.log(data);
     console.log(actions);
   };
 
-  // // Destructure data using map
-  // const { id, imageUrl, name, price, quantity } = invoiceId;
-  console.log(
-    invoiceId.map(({ id, name, quantity }) => ({ id, name, quantity }))
-  );
   const seeItems = () =>
     console.log(
       invoiceId.map(({ id, name, quantity }) => ({ id, name, quantity }))
@@ -67,11 +53,9 @@ const PaypalBtn: React.FC<paypalBtnProps> = ({ amount, invoiceId }) => {
     <>
       <PayPalButtons
         onClick={(data, actions) => {
-          //validate on button click using the client or server
           console.log("clicked");
-          seeItems(); //TODO aqui esta el problema, hay que usar state para que se actualice el array de invoiceId, guarda los datos de invoiceId en un state y luego lo pasas aca y modifica paypal
+          seeItems();
         }}
-        //for example to check that the user has not already bought the item, or that it has not subscribed to the service already
         style={{ layout: "horizontal" }}
         createOrder={(data, actions) => {
           return actions.order.create({
@@ -88,8 +72,6 @@ const PaypalBtn: React.FC<paypalBtnProps> = ({ amount, invoiceId }) => {
                 },
                 items: invoiceId.map((item) => ({
                   name: item.name,
-                  // description: `Item: ${item.name} \n Quantity: ${item.quantity} \n img: ${item.imageUrl}`,
-                  // sku: item.id,
                   unit_amount: {
                     currency_code: "USD",
                     value: item.price.toFixed(2),
@@ -106,6 +88,7 @@ const PaypalBtn: React.FC<paypalBtnProps> = ({ amount, invoiceId }) => {
         onApprove={handleApprove}
         onError={handleError}
         onCancel={handleCancel}
+        forceReRender={invoiceId}
       />
     </>
   );

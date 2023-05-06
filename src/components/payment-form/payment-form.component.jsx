@@ -13,9 +13,9 @@ export default function PaymentForm() {
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const navigate = useNavigate();
 
-  cartItems.map((cartItem) => {
-    console.log(cartItem);
-  });
+  // cartItems.map((cartItem) => {
+  //   console.log(cartItem);
+  // });
 
   return (
     <>
