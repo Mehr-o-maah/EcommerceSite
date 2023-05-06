@@ -39,7 +39,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <PayPalScriptProvider
         options={{
-          "client-id": "id client",
+          "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
         }}
       >
         <CartProvider>
@@ -49,3 +49,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </Provider>
   </React.StrictMode>
 );
+
+//TODO hacer el crud con agregar y borrar usuarios de firebase, y también con los productos
+//TODO hacer las paginas para editar los productos y los usuarios, solo para el admin
