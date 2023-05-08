@@ -50,5 +50,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   </React.StrictMode>
 );
 
-//TODO hacer el crud con agregar y borrar usuarios de firebase, y también con los productos
-//TODO hacer las paginas para editar los productos y los usuarios, solo para el admin
+//TODO hacer las paginas para editar los productos solo para el admin
