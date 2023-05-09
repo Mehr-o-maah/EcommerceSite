@@ -50,8 +50,8 @@ export default function SignInFormComponent() {
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
     await createUserDocumentFromAuth(user);
-    //console.log(user?.displayName);
-
+    console.log(user?.displayName);
+    console.log(user?.email);
     user && dispatch(setCurrentUser(user?.displayName || user?.email));
   };
 

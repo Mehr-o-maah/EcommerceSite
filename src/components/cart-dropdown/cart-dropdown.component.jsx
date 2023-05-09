@@ -14,8 +14,8 @@ export default function CartDropdownComponent() {
   const navigate = useNavigate();
 
   ////console.log("cart items:", cartItems);
-
   const handleCheckout = () => {
+    console.log(currentUser);
     navigate("/checkout");
 
     if (!currentUser) {
