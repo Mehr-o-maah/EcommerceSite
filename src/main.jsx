@@ -21,6 +21,10 @@ import store from "./redux/store";
 //paypal integration
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
+//Auth for admin
+import { ProtectedRoutes } from "./routes/auth/protected-routes/ProtectedRoutes";
+import { Admin } from "./components/admin/admin";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,6 +34,11 @@ const router = createBrowserRouter([
       { path: "auth", element: <Auth /> },
       { path: "shop/*", element: <ShopComponent /> },
       { path: "checkout", element: <CheckoutComponent /> },
+      {
+        path: "admin",
+        element: <ProtectedRoutes />,
+        children: [{ index: true, element: <Admin /> }],
+      },
     ],
   },
 ]);
