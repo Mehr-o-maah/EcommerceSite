@@ -7,7 +7,7 @@ import CartIconComponent from "../../../components/cart-icon/cart-icon-component
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "../../../redux/cart.reducer";
-import { setCurrentUser } from "../../../redux/user.reducer";
+import { setCurrentUser, toggleAdmin } from "../../../redux/user.reducer";
 
 import { signOutAuthUser } from "../../../utils/firebase/firebase.utils";
 import CartDropdownComponent from "../../../components/cart-dropdown/cart-dropdown.component";
@@ -15,7 +15,7 @@ import { useEffect } from "react";
 
 export default function Navigation() {
   const { hidden } = useSelector((state) => state.cart);
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, isAdmin } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   //const toggleCart = () => dispatch(toggleCartHidden());
@@ -34,6 +34,7 @@ export default function Navigation() {
   const signOut = () => {
     signOutAuthUser();
     dispatch(setCurrentUser(null));
+    dispatch(toggleAdmin(false));
   };
 
   return (
@@ -53,6 +54,11 @@ export default function Navigation() {
           ) : (
             <Link className="nav-link" to="/auth">
               SIGN IN
+            </Link>
+          )}
+          {isAdmin && (
+            <Link className="nav-link" to="/admin">
+              ADMIN
             </Link>
           )}
           <span style={userNameStyle}>{currentUser}</span>
