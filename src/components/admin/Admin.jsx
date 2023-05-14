@@ -21,12 +21,35 @@ const performPutRequest = async (url, body) => {
   return data;
 };
 
+const performPostRequest = async (url, body) => {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  });
+  const data = await response.json();
+  return data;
+};
+
+const performDeleteRequest = async (url) => {
+  const response = await fetch(url, {
+    method: "DELETE",
+  });
+  const data = await response.json();
+  return data;
+};
+
 export const Admin = () => {
   const {
     data: categories,
     error: categoriesError,
     mutate,
   } = useSWR(baseUrl, fetchData);
+  const [newProductName, setNewProductName] = useState("");
+  const [newProductPrice, setNewProductPrice] = useState(0);
+  const [newProductImageUrl, setNewProductImageUrl] = useState("");
 
   if (categoriesError) {
     return <div>Error loading categories</div>;
@@ -70,6 +93,36 @@ export const Admin = () => {
     );
   };
 
+  const handleAddProduct = async (categoryTitle) => {
+    const category = categories.find(
+      (category) => category.title === categoryTitle
+    );
+    const newProduct = {
+      id: Date.now(),
+      name: newProductName,
+      price: newProductPrice,
+      imageUrl: newProductImageUrl,
+    };
+    const updatedCategory = {
+      ...category,
+      items: [...category.items, newProduct],
+    };
+    const updatedCategories = categories.map((category) =>
+      category.title === categoryTitle ? updatedCategory : category
+    );
+    mutate(updatedCategories, false);
+
+    await performPostRequest(
+      `${baseUrl}/${categoryTitle.toLowerCase()}/items`,
+      JSON.stringify(newProduct)
+    );
+
+    // Reset the form
+    setNewProductName("");
+    setNewProductPrice(0);
+    setNewProductImageUrl("");
+  };
+
   return (
     <div>
       <h1>Admin</h1>
@@ -110,6 +163,31 @@ export const Admin = () => {
               );
             })}
           </ul>
+          <div>
+            <h3>Add New Product</h3>
+            <input
+              type="text"
+              placeholder="Product Name"
+              value={newProductName}
+              onChange={(e) => setNewProductName(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Price"
+              value={newProductPrice}
+              onChange={(e) => setNewProductPrice(e.target.value)}
+              min="10"
+            />
+            <input
+              type="text"
+              placeholder="Image URL"
+              value={newProductImageUrl}
+              onChange={(e) => setNewProductImageUrl(e.target.value)}
+            />
+            <button onClick={() => handleAddProduct(category.title)}>
+              Add Product
+            </button>
+          </div>
         </div>
       ))}
     </div>
