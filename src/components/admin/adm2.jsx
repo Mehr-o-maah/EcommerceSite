@@ -1,42 +1,3 @@
-// import React, { useState } from "react";
-// import useSWR from "swr";
-
-// const baseUrl = "http://localhost:5000/categories";
-
-// const fetchData = async (url) => {
-//   const response = await fetch(url);
-//   const data = await response.json();
-//   return data;
-// };
-
-// export default function admin() {
-//   const {
-//     data: categories,
-//     error: categoriesError,
-//     mutate,
-//   } = useSWR(baseUrl, fetchData);
-
-//   if (error) return <div>failed to load</div>;
-//   if (!data) return <div>loading...</div>;
-
-//   return (
-//     <>
-//       <h1>admin</h1>
-//       {categories.map((category) => (
-//         <div key={category.title}>
-//           <h2>{category.title}</h2>
-//           <ul>
-//             {category.items.map((product) => (
-//               <li key={product.id}>
-//                 <input type="text" value={product.name} />
-//                 <input type="number" value={product.price} />
-//                 <input type="text" value={product.imageUrl} />
-//               </li>
-//                 }}
-//     </>
-//   );
-// }
-
 import React, { useState } from "react";
 import useSWR from "swr";
 
@@ -128,42 +89,31 @@ export const Admin = () => {
     const category = categories.find(
       (category) => category.title === categoryTitle
     );
-
-    const updatedItems = category.items.map((item) => {
-      if (item.id === productId) {
-        return { ...item, ...updatedFields };
-      } else {
-        return item;
-      }
-    });
-
+    const updatedItems = category.items.map((item) =>
+      item.id === productId ? { ...item, ...updatedFields } : item
+    );
     const updatedCategory = {
       ...category,
       items: updatedItems,
     };
-
     const updatedCategories = categories.map((category) =>
       category.title === categoryTitle ? updatedCategory : category
     );
-
     mutate(updatedCategories, false);
 
-    // Create the payload with all properties
-    const updatedProduct = {
-      name:
-        updatedFields.name ||
-        category.items.find((item) => item.id === productId).name,
-      price:
-        updatedFields.price ||
-        category.items.find((item) => item.id === productId).price,
-      imageUrl:
-        updatedFields.imageUrl ||
-        category.items.find((item) => item.id === productId).imageUrl,
-    };
+    const validUpdates = Object.entries(updatedFields).reduce(
+      (acc, [field, value]) => {
+        if (value !== undefined) {
+          acc[field] = value;
+        }
+        return acc;
+      },
+      {}
+    );
 
     await performPutRequest(
       `${baseUrl}/${categoryTitle.toLowerCase()}/items/${productId}`,
-      updatedProduct
+      validUpdates
     );
   };
 
