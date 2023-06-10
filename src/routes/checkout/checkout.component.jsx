@@ -2,6 +2,7 @@ import "./checkout.styles.scss";
 // //import { useContext } from "react";
 // import { CartContext } from "../../contexts/cart.context";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/button/button.component";
 
 import CheckoutItemComponent from "../../components/checkout-item/checkout-item.component";
 import PaymentForm from "../../components/payment-form/payment-form.component";
