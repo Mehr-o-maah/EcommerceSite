@@ -9,17 +9,14 @@ on:
 
 jobs:
   lighthouse:
-    runs-on: ubuntu-latest
+    name: Lighthouse
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
-      - name: Install pnpm
-        run: npm install -g pnpm
-      - name: Install dependencies
-        run: pnpm install
-      - name: Run Lighthouse
-        run: pnpm run lighthouse
-      - name: Upload Lighthouse report
-        uses: actions/upload-artifact@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          name: lighthouse-report
-          path: ./lighthouse-report.html
+          node-version: "18.x"
+      - name: Setup Lighthouse
+        run: npm install -g @lhci/cli@0.13.x
+      - name: Lighthouse Report
+        run: lhci autorun --upload.target=temporary-public-storage --collect.staticDistDir=.
