@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lighthouse": "lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html"
+    "lhci": "lhci autorun --upload.target=temporary-public-storage --collect.staticDistDir=./build"
   },
   "dependencies": {
     "@paypal/react-paypal-js": "^7.8.3",
