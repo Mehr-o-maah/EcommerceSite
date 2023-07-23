@@ -23,7 +23,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 //Auth for admin
 import { ProtectedRoutes } from "./routes/auth/protected-routes/ProtectedRoutes";
-import { Admin } from "./components/admin/admin";
+import { Admin } from "./components/admin/Admin";
 
 const router = createBrowserRouter([
   {
