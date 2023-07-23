@@ -1,0 +1,22 @@
+# test for lighthouse performance
+name: lighthouse
+
+on:
+  pull_request:
+    branches:
+      - master
+      - Paypal
+
+jobs:
+  lighthouse:
+    name: Lighthouse
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+      - name: Setup Lighthouse
+        run: npm install -g @lhci/cli@latest
+      - name: Lighthouse Report
+        run: lhci autorun --upload.target=temporary-public-storage --collect.staticDistDir=.
