@@ -5,7 +5,11 @@ import {
   onAuthStateChangedListener,
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
-import { setCurrentUser } from "../../redux/user.reducer";
+import {
+  setCurrentUser,
+  setUserEmail,
+  toggleAdmin,
+} from "../../redux/user.reducer";
 import { useDispatch } from "react-redux";
 
 import FormInput from "../form-input/form-input-component";
@@ -50,9 +54,16 @@ export default function SignInFormComponent() {
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
     await createUserDocumentFromAuth(user);
-    //console.log(user?.displayName);
-
+    console.log(user?.displayName);
+    console.log(user?.email);
     user && dispatch(setCurrentUser(user?.displayName || user?.email));
+    //set user email
+    dispatch(setUserEmail(user?.email));
+
+    //check if user is admin
+    const isAllowed = user?.email === import.meta.env.VITE_ADMIN_EMAIL;
+    // console.log("isAllowed:", isAllowed);
+    if (isAllowed) dispatch(toggleAdmin());
   };
 
   //sign in

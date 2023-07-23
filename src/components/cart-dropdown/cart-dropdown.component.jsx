@@ -9,12 +9,19 @@ import { useSelector } from "react-redux";
 
 export default function CartDropdownComponent() {
   const { cartItems } = useSelector((state) => state.cart);
+  const currentUser = useSelector((state) => state.user.currentUser);
+
   const navigate = useNavigate();
 
   ////console.log("cart items:", cartItems);
-
   const handleCheckout = () => {
+    console.log(currentUser);
     navigate("/checkout");
+
+    if (!currentUser) {
+      alert("Please login to continue");
+      navigate("/auth");
+    }
   };
   return (
     <div className="cart-dropdown-container">

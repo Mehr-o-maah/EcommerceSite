@@ -2,8 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Elements } from "@stripe/react-stripe-js";
-import { stripePromise } from "./utils/stripe/stripe.utils";
 
 //Components
 import Home from "./routes/home/Home.component";
@@ -20,6 +18,13 @@ import { CartProvider } from "./contexts/cart.context";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
+//paypal integration
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
+//Auth for admin
+import { ProtectedRoutes } from "./routes/auth/protected-routes/ProtectedRoutes";
+import { Admin } from "./components/admin/Admin";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +34,11 @@ const router = createBrowserRouter([
       { path: "auth", element: <Auth /> },
       { path: "shop/*", element: <ShopComponent /> },
       { path: "checkout", element: <CheckoutComponent /> },
+      {
+        path: "admin",
+        element: <ProtectedRoutes />,
+        children: [{ index: true, element: <Admin /> }],
+      },
     ],
   },
 ]);
@@ -36,11 +46,17 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <CartProvider>
-        <Elements stripe={stripePromise}>
+      <PayPalScriptProvider
+        options={{
+          "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+        }}
+      >
+        <CartProvider>
           <RouterProvider router={router} />
-        </Elements>
-      </CartProvider>
+        </CartProvider>
+      </PayPalScriptProvider>
     </Provider>
   </React.StrictMode>
 );
+
+//TODO hacer las paginas para editar los productos solo para el admin
